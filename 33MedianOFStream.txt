@@ -1,0 +1,75 @@
+  public class Pair
+    {
+        public Pair(int p, int v)
+        {
+            this.p = p;
+            this.v = v;
+        }
+        public int p { get; set; }
+        public int v { get; set; }
+    }
+
+
+    public class MedianFinder
+    {
+
+        SortedSet<Pair> maxHeap= new SortedSet<Pair>(Comparer<Pair>.Create((a, b) =>
+        {
+            if (a == b) return 0;
+            int res = a.p.CompareTo(b.p);
+            return res == 0 ? 1 : res;
+        }));
+        SortedSet<Pair> minHeap = new SortedSet<Pair>(Comparer<Pair>.Create((a, b) =>
+        {
+            if (a == b) return 0;
+            int res = a.p.CompareTo(b.p);
+            return res == 0 ? 1 : res;
+        }));
+
+
+        public MedianFinder()
+        {
+
+          
+        }
+
+        public void AddNum(int num)
+        {
+
+            if (maxHeap.Count() == 0 || num < maxHeap.Last().v)
+            {
+                maxHeap.Add(new Pair(num, num));
+            }
+            else
+            {
+                minHeap.Add(new Pair(num, num));
+            }
+
+            if (maxHeap.Count() - minHeap.Count() > 1)
+            {
+                minHeap.Add(maxHeap.Last());
+                maxHeap.Remove(maxHeap.Last());
+            }
+            else if (minHeap.Count() - maxHeap.Count() > 1)
+            {
+                maxHeap.Add(minHeap.First());
+                minHeap.Remove(minHeap.First());
+            }
+        }
+
+        public double FindMedian()
+        {
+
+            if (maxHeap.Count() == minHeap.Count ())
+            {
+                return (double)(maxHeap.Last().v + minHeap.First().v) / 2;
+            }
+            else
+            {
+                if (maxHeap.Count() > minHeap.Count())
+                    return maxHeap.Last().v;
+                else
+                    return minHeap.First().v;
+            }
+        }
+    }

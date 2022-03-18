@@ -1,0 +1,70 @@
+public class FreqStack {
+
+    //Here we need two DS for storing counts and values corresponding to those counts
+    
+    Dictionary<int, int> keyCounts;
+    Dictionary<int, Stack<int>> freqStack;
+    int maxFreq;
+    
+    public FreqStack() {
+        keyCounts= new Dictionary<int, int> ();
+        freqStack= new Dictionary<int, Stack<int>>();
+        maxFreq=0;
+    }
+    
+    public void Push(int val) {
+        
+        //updating key Counts hashmap
+        if(!keyCounts.ContainsKey(val))
+        {
+            keyCounts.Add(val, 1);
+        }
+        else
+        {
+            keyCounts [val]++;
+        }
+        
+        //updating max freq variable
+        
+        int frequency=keyCounts [val];        
+        if(frequency > maxFreq)
+        {
+            maxFreq= frequency;
+        }
+        
+        //updating actual stack that stores the values wrt to their frequencies
+        
+        if(!freqStack.ContainsKey(frequency))
+        {
+            freqStack.Add(frequency, new Stack<int>());
+            freqStack[frequency].Push(val);
+        }
+        else
+        {
+            freqStack[frequency].Push(val);
+        }
+    }
+    
+    public int Pop() {
+        
+        //getting the stack that holds most frequencies
+        Stack<int> s=  freqStack[maxFreq];
+        int top= s.Peek();
+        s.Pop();//removing the top of the stack and return the same
+        
+        if(s.Count () ==0)//updating maxFreq if that pop operation results in empty stack
+        {
+            maxFreq--;
+        }
+        //updating the key counts as we have removed one.
+        keyCounts [top]--;
+        return top;
+    }
+}
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack obj = new FreqStack();
+ * obj.Push(val);
+ * int param_2 = obj.Pop();
+ */

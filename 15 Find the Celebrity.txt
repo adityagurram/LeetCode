@@ -1,0 +1,28 @@
+/* The Knows API is defined in the parent class Relation.
+      bool Knows(int a, int b); */
+
+public class Solution : Relation {
+    public int FindCelebrity(int n) {
+        
+        int candidate=0;
+        
+        for(int i=1; i< n; i++ )
+        {
+            if(Knows(candidate, i) && !Knows (i, candidate))
+            {
+                candidate=i;//Since I m changing the candidate to the person i , I m just making sure the earlier predicted candidiate knows me and I dont know the earlier predicted candidate
+            }
+        }
+        
+        
+        for(int i=0; i<n; i++)
+        {
+            if(i!=candidate && Knows (candidate, i) || !Knows (i, candidate))//I m not checking with myself as I know myself and everyone knows me and I dont know anyone then only return candidate otherwise -1
+            {
+                return -1;
+            }
+        }
+        
+        return candidate;
+    }
+}

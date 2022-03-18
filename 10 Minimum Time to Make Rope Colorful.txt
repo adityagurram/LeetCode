@@ -1,0 +1,20 @@
+public class Solution {
+    public int MinCost(string colors, int[] neededTime) {
+        
+        int minCost=0;
+        
+        for(int i=1; i< colors.Length; i++)
+        {
+            if(colors[i]==colors[i-1])
+            {
+                int min= Math.Min(neededTime[i], neededTime[i-1]);
+                int max =Math.Max(neededTime[i], neededTime[i-1]);
+                
+                minCost+= min;
+                neededTime[i]=max;
+            }
+            
+        }
+        return minCost;
+    }
+}

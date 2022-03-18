@@ -1,0 +1,105 @@
+public class Solution {
+    
+         List<string> result = new List<string>();
+        StringBuilder sb = new StringBuilder();
+        public IList<string> RestoreIpAddresses(string s)
+        {
+
+            //This is based on the backtracking solution to find the substring that can possibly be part of the IP address that we are constructing
+            if (s.Length == 0 || s.Length > 12)
+            {
+                return result;
+            }
+            int sLen = s.Length;
+            for(int i=0; i<s.Length; i++)
+            helper(0, s, sLen);
+
+            return result;
+        }
+        private void helper(int dotCount, String s, int sLen)
+        {
+
+            if (dotCount == 4 && sb.ToString().Length == sLen + dotCount )
+            {
+                //add to the result              
+                //  result.Add(currIP.Substring(0, currIP.Length - 1));
+                if(!result.Contains(sb.ToString().Substring(0, sb.Length - 1)))
+                result.Add(sb.ToString().Substring(0, sb.Length - 1));
+                return;
+            }
+
+            if (dotCount > 4)
+            {
+                return;
+            }
+
+            for (int i = 1; i - 1 < s.Length&&  i <= 3; i++)
+            {
+               
+                int num = Convert.ToInt32(s.Substring(0, i));
+                if (num <= 255 && (s.Substring(0, i).Length == 1 || (s.Substring(0, i).Length > 1 && s.Substring(0, i)[0] != '0')))//this is for trailing 0s
+                {   
+                        int sbLen = sb.Length;
+                        sb.Append(s.Substring(0, i) + ".");
+                        helper(dotCount + 1, s.Substring(i), sLen);
+                        sb.Remove(sbLen, i + 1);
+                }
+            }
+        }
+
+}
+
+
+
+public class Solution {
+    
+       List<string> result = new List<string>();
+        StringBuilder sb = new StringBuilder();//efficient approach with StringBuilder
+        public IList<string> RestoreIpAddresses(string s)
+        {
+
+            //This is based on the backtracking solution to find the substring that can possibly be part of the IP address that we are constructing
+            if (s.Length == 0 || s.Length > 12)
+            {
+                return result;
+            }
+            int sLen = s.Length;
+            helper(0, 0, s);
+
+            return result;
+        }
+        private void helper(int index, int dotCount, String s)
+        {
+
+            if (dotCount == 4 && index == s.Length)
+            {
+               
+                result.Add(sb.ToString().Substring(0, sb.Length - 1));
+                return;
+            }
+
+            if (dotCount > 4)
+            {
+                return;
+            }
+
+
+            foreach (int j in Enumerable.Range(index, Math.Min (index+3, s.Length)-index))
+            {
+                int num = Convert.ToInt32(s.Substring(index, j - index + 1));
+                if (num <= 255 && (j == index || s[index] != '0'))//this is for trailing 0s
+                {
+                    int sbLen = sb.Length;
+                    sb.Append(s.Substring(index, j - index + 1) + ".");
+                    helper(j+1, dotCount+1, s );
+                    sb.Remove(sbLen,j - index + 2) ;
+                }
+            }
+
+        }
+
+}
+
+
+
+

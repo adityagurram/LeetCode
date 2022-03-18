@@ -1,0 +1,45 @@
+public class Solution {
+    public string Tictactoe(int[][] moves) {
+        
+        int[] rows= new int [3];
+        int [] cols= new int [3];
+        int diag=0;
+        int antiDiag=0;
+        
+        int player=-1;
+        int size=3;
+        
+        for(int i=0; i< moves.Length; i++)
+        {
+            player= player*-1;
+            
+            int row= moves[i][0];
+            int col= moves[i][1];
+            
+            rows[row]+=player;
+            cols[col]+=player;
+            
+            if(row==col)
+            {
+                diag+=player;
+            }
+            if(row== size-1-col)
+            {
+                antiDiag+= player;
+            }
+            
+            if(Math.Abs(rows[row])==size || Math.Abs (cols[col])==size || Math.Abs(diag)==size || Math.Abs(antiDiag)==size)
+            {
+                return player==1? "A" : "B";
+            }
+            
+        }
+        
+        if(moves.Length!=size*size)
+        {
+            return "Pending";
+        }
+        return "Draw";
+        
+    }
+}

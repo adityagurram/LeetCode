@@ -1,0 +1,43 @@
+public class Solution {
+    public string LongestDiverseString(int a, int b, int c) {
+        //what could be the max lenght of the string which is the sum of (a, b, c)
+        
+        int maxLen= a+b+c;
+        StringBuilder sb= new StringBuilder();
+        
+        int currentAlen=0;
+        int currentBlen=0;
+        int currentClen=0;
+        
+        for(int i=0; i< maxLen; i++)//we need to print each character in a, b, c
+        {
+            if(a >=b && a>= c && currentAlen<2 || (a>0 && (currentBlen==2 || currentClen==2)))//this will make sure whenever we print a then we have right to print b, c upto 2 characters, that's why wehave marked them to 0
+            {
+                sb.Append("a");
+                a--;
+                currentAlen++;
+                currentClen=0;
+                currentBlen=0;
+            }
+            
+            else if(b >= a && b >=c && currentBlen<2 || (b>0 && (currentAlen==2 || currentClen==2)))
+            {
+                sb.Append("b");
+                b--;
+                currentBlen++;
+                currentAlen=0;
+                currentClen=0;
+            }
+            
+            else if (c>= a && c>=b && currentClen<2 || (c>0 &&(currentBlen==2 || currentAlen==2) ))
+            {
+                sb.Append("c");
+                c--;
+                currentClen++;
+                currentAlen=0;
+                currentBlen=0;
+            }
+        }
+        return sb.ToString ();
+    }
+}

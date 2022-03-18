@@ -1,0 +1,84 @@
+public class MyCircularQueue {
+
+    //Here I need an Array to store the values
+    //I also need to two pointers to store the start and end positions of the queue
+    public int capacity;
+    public int [] queue;
+    public int end;
+    public int start;
+    
+    public MyCircularQueue(int k) {
+        queue= new int [k];
+        this.capacity=k;
+        this.start=0;//this is like a head pointer
+        this.end =0;//this acts like a count
+    }
+    
+    public bool EnQueue(int value) {
+        
+        if(IsFull())
+        {
+            return false;
+        }
+        queue[(start +end) % capacity]= value;
+        end++;
+     
+        return true;
+    }
+    
+    public bool DeQueue() {
+        
+        if(IsEmpty ())
+        {
+            return false;
+        }        
+        end--;
+        start= (start +1 )% capacity;        
+        return true;        
+    }
+    
+    public int Front() {
+        
+        if(IsEmpty ())
+        {
+           return -1; 
+        }        
+        return queue[start];
+    }
+    
+    public int Rear() {
+        
+        if(IsEmpty())
+        {
+            return -1;
+        }        
+        return queue [(start + end -1 ) % capacity];        
+    }
+    
+    public bool IsEmpty() {
+        if(end ==0)
+        return true;
+        
+        return false;
+    }
+    
+    public bool IsFull() {
+     
+        if(end == capacity)
+        {
+            return true;
+        }        
+        return false;
+    }
+}
+
+/**
+ * Your MyCircularQueue object will be instantiated and called as such:
+ * MyCircularQueue obj = new MyCircularQueue(k);
+ * bool param_1 = obj.EnQueue(value);
+ * bool param_2 = obj.DeQueue();
+ * int param_3 = obj.Front();
+ * int param_4 = obj.Rear();
+ * bool param_5 = obj.IsEmpty();
+ * bool param_6 = obj.IsFull();
+ */

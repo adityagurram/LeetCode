@@ -1,0 +1,56 @@
+public class Solution {
+    public IList<string> RemoveComments(string[] source) {
+        
+   List<string> result = new List<string>();
+           if(source==null || source.Length==0)
+           {
+               return result;
+           }
+        
+        string res="";
+        bool isBlockCode=false;
+        
+        foreach(string s in source)
+        {
+            for(int i=0; i< s.Length; i++)
+            {
+                if(!isBlockCode)
+                {
+                    
+                    if(s[i]=='/' && i+1< s.Length && s[i+1]=='*')
+                    {
+                        isBlockCode=true;
+                        i++;
+                    }
+                    else if (s[i]=='/' && i+1 < s.Length && s[i+1]=='/')
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        res+=s[i];
+                    }
+                    
+                }
+                else 
+                {
+                    if (s[i]=='*' && i+1 < s.Length && s[i+1]=='/')
+                    {
+                        isBlockCode=false;
+                        i++;
+                    }
+                }           
+                
+                
+            }
+            
+            if(!isBlockCode && res!="")
+            {
+                result.Add (res);
+                res="";
+            }
+        }
+
+            return result;
+    }
+}

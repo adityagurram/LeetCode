@@ -1,0 +1,46 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    int count=0; 
+        List<int> tempList= new List<int> ();
+        
+    public int PathSum(TreeNode root, int targetSum) {
+     
+        List<int> tempList= new List<int> ();
+        
+        helper(root, targetSum);
+        return count;
+    }
+    
+    private void helper (TreeNode root , int target)
+    {
+        if(root==null) return;
+        
+        tempList.Add(root.val);
+        helper (root.left, target);
+        helper(root.right, target);
+        
+        
+        int sum=0;
+        for(int i= tempList.Count() -1; i>=0; i--)    
+        {
+            sum+= tempList[i];
+            
+            if(sum== target) count ++;
+        }
+        tempList.RemoveAt(tempList.Count () -1);
+        
+        
+    }
+}

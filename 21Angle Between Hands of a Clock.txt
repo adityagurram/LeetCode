@@ -1,0 +1,14 @@
+public class Solution {
+    public double AngleClock(int hour, int minutes) {
+        
+        //Here Each hour takes 30* and since a at 12 we need 0 degrees so we are takin modulo
+        //Then we find the tilted hour degree by diving the minutes by 60 as it will be always less than 1; so taking it as float 
+        double hourDegree= (hour %12 + (double)minutes/60)*30;//360/12
+        
+        double minuteDegree= minutes*6;//360/60;
+        
+        double diff= Math.Abs(hourDegree-minuteDegree);
+        
+        return Math.Min (diff, 360-diff);
+    }
+}

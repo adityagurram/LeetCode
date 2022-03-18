@@ -1,0 +1,118 @@
+public class FileSystem {
+
+    //We solve this problem with TRIE data structure
+    //A node with Key and value will be a HashMap
+    
+    public class FileNode
+    {
+        public bool IsFile;
+        public Dictionary<string, FileNode> dict = new Dictionary< string, FileNode>();
+      public  string FileContent= String.Empty;
+        
+        public FileNode(bool IsFile)
+        {
+            this.IsFile= IsFile;
+        }
+    }
+    
+    FileNode root=null;
+    
+    public FileSystem() {
+        root= new FileNode(false);
+    }
+    
+    public IList<string> Ls(string path) {
+        
+        IList<string> result= new List<string> ();  
+        string[] splitFiles = path.Split('/');
+        FileNode fileNode= root;
+        
+        for(int i=1; i< splitFiles.Length; i++)
+        {
+            string currentDir= splitFiles[i];
+            if(fileNode.dict.ContainsKey (currentDir))
+            {
+               fileNode= fileNode.dict[currentDir];
+            }
+        }
+        
+        if(fileNode.IsFile)
+        {
+            result.Add (splitFiles[splitFiles.Length -1]);
+            return result;
+        }
+        
+        foreach (string key in fileNode. dict.Keys)
+        {
+            result.Add (key);
+            
+        }       
+      string[] arr = result.ToArray();
+        Array.Sort(arr);
+        return (arr);
+    }
+    
+    public void Mkdir(string path) {
+        
+         //For Reading the content, we need to naviate the path thru the TrieNode till the end        
+        string[] splitFiles = path.Split('/');
+        FileNode fileNode= root;
+        for(int i=1; i< splitFiles.Length; i++)
+        {
+            string currentDir= splitFiles[i];
+            if(fileNode.dict.ContainsKey (currentDir))
+            {
+               fileNode= fileNode.dict[currentDir];
+                continue;
+            }            
+            FileNode newNode= new FileNode (false);
+            fileNode.dict.Add (currentDir, newNode);
+            fileNode = newNode;        
+        }
+    }
+    
+    public void AddContentToFile(string filePath, string content) {
+        
+         //For Reading the content, we need to naviate the path thru the TrieNode till the end        
+        string[] splitFiles = filePath.Split('/');
+        FileNode fileNode = root;
+        for(int i=1; i< splitFiles.Length; i++)
+        {
+            string currentDir= splitFiles[i];
+            if(fileNode.dict.ContainsKey (currentDir))
+            {
+               fileNode= fileNode.dict[currentDir];
+                continue;
+            }      
+              FileNode newNode= new FileNode (i==splitFiles.Length -1 );
+            fileNode.dict.Add (currentDir, newNode);
+            fileNode = newNode; 
+        }        
+        
+       
+        fileNode.FileContent+= content;
+    }
+    
+    public string ReadContentFromFile(string filePath) {
+        
+        //For Reading the content, we need to naviate the path thru the TrieNode till the end        
+         string[] splitFiles = filePath.Split('/');
+        FileNode fileNode= root;
+        for(int i=1; i< splitFiles.Length; i++)
+        {
+            string currentDir= splitFiles[i];
+            if(fileNode.dict.ContainsKey (currentDir))
+            fileNode=fileNode. dict[currentDir];
+        }        
+        return fileNode.FileContent;        
+    }
+}
+
+/**
+ * Your FileSystem object will be instantiated and called as such:
+ * FileSystem obj = new FileSystem();
+ * IList<string> param_1 = obj.Ls(path);
+ * obj.Mkdir(path);
+ * obj.AddContentToFile(filePath,content);
+ * string param_4 = obj.ReadContentFromFile(filePath);
+ */

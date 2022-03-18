@@ -1,0 +1,55 @@
+public class Solution {
+    
+    IList<string> result= new List<String>();
+    public IList<string> LetterCombinations(string digits) {
+        
+        if(digits.Length==0) 
+        {
+            return result;
+        }
+        
+        //Its a backtracking problem so combinatorial enumeration(permutations)
+        
+        //First we need to form the string using the digits
+        
+        Dictionary<char, string> keyboard= new Dictionary<char, string> ();
+        
+        keyboard. Add ('2', "abc");
+        keyboard. Add ('3', "def");
+        keyboard. Add ('4', "ghi");
+        keyboard. Add ('5', "jkl");
+        keyboard. Add ('6', "mno");
+        keyboard. Add ('7', "pqrs");
+        keyboard. Add ('8', "tuv");
+        keyboard. Add ('9', "wxyz");
+        
+       //  digits=digits. Replace("1", ""). Replace("0","");
+        List<char> slate= new List<char> ();
+        
+        helper(0,keyboard,digits, digits.Length, slate);
+        return result;
+    }
+    
+    private void helper ( int index, Dictionary<char, string> keyboard, string digits, int len, List<char> slate)
+    {
+        if(slate.Count () == len)
+        {
+            result. Add (new string (slate.ToArray()));
+            return ;
+        }
+        
+        //get the alphabets from the keyboard
+        char [] alphabet= keyboard [digits [index]].ToCharArray();
+        for(int i=0; i< alphabet.Length; i++)
+        {
+            slate. Add (alphabet [i]);
+           
+            helper (index +1 ,keyboard, digits, len, slate);
+ 
+            slate .RemoveAt(slate.Count () -1);
+        }
+        
+    }
+    
+    
+}

@@ -1,0 +1,36 @@
+/**
+ * The Read4 API is defined in the parent class Reader4.
+ *     int Read4(char[] buf4);
+ */
+
+public class Solution : Reader4 {
+    /**
+     * @param buf Destination buffer
+     * @param n   Number of characters to read
+     * @return    The number of actual characters read
+     */
+    public int Read(char[] buf, int n) {
+        
+        int result=0;
+        
+        //here I need to read the data from Read4 function APi and store the results back to buf present in the read method paramter
+        char [] buf4= new char[4];//we are reading only max of 4 chars
+        while(true)
+        {
+            int len= Read4(buf4);
+            
+            if(len==0 || result > n)
+            {
+                break;
+            }
+            //now copy the len of the result froom buf4 to buf
+            
+            for(int j=0; j< len && result<n; j++)
+            {
+                buf[result++]= buf4[j]; 
+            }
+        }
+        
+        return result;
+    }
+}

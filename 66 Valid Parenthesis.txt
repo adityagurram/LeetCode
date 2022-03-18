@@ -1,0 +1,44 @@
+public class Solution {
+    public bool IsValid(string s) {
+        
+        //here we are considering only the below parenthesis        
+        //()[]{}
+        //we use stack to push all the opening chars and check the closing , pop to see they match
+        
+        Stack <char> stack= new Stack <char>();
+        
+        foreach (char c in s.ToCharArray())
+        {
+            if(c=='(' || c== '{' || c== '[' )
+            {
+                stack.Push (c);
+            }            
+            else if (c==')' && stack.Count () >0 && stack.Peek()=='('   )             
+            {
+                stack.Pop();
+            } 
+            else if (c=='}' && stack.Count () >0 && stack.Peek()=='{'  )              
+            {
+                stack.Pop();
+            }
+            else if (c==']' && stack.Count () >0 && stack.Peek()=='[' )               
+            {
+                stack.Pop();
+            }
+            else
+            {
+                return false;
+            }
+              
+                
+        }       
+                     
+                     
+        if(stack.Count () >0)
+        {
+            return false;
+        }
+        return true;
+        
+    }
+}

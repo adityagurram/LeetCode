@@ -1,0 +1,90 @@
+//Here I have used Dictionary and Linkedlist to hold the values of the cache items.
+//  For get operations, check if the key is present in the linked list then retrive it and add first to the linked list to show it's the latest cache item
+//for put operations, check if the key is present and then update the key with new value. Remove and add first to make this latest. If this is not present //then create a new node and add first to the linkedlist.
+//Before adding any node check if the capacity is reached. if the capacity is reached then remove the element from the last and addFirst this new node to
+//make this latest.
+
+TC = O(1) based on linkedlist impl
+SC= O(1) not considering cache itself
+
+public class Node
+		{
+          public  int val;
+           public  int key;
+
+            public Node(int k, int v)
+			{
+                this.key = k;
+                this.val = v;
+			}
+		}
+
+
+        public class LRUCache
+        {
+
+            public int capacity;
+            public LinkedList<Node> ll;
+            public Dictionary<int, LinkedListNode<Node>> dict;
+
+            public LRUCache(int capacity)
+            {
+
+                this.capacity = capacity;
+                dict = new Dictionary<int, LinkedListNode<Node>>();
+                ll = new LinkedList<Node>();
+            }
+
+            public int Get(int key)
+            {
+
+                int result = -1;
+
+                if (!dict.TryGetValue(key, out LinkedListNode<Node> lln))
+                {
+                    result = -1;
+                }
+                else
+                {
+                    result = dict[key].Value.val;
+                    LinkedListNode<Node> node = dict[key];
+                    ll.Remove(dict[key]);
+                    ll.AddFirst(node);
+
+                }
+                return result;
+            }
+
+             public void Put(int key, int value)
+            {
+               
+                
+
+                if (!dict.TryGetValue(key, out LinkedListNode<Node> lln))//if the key is not present then insert a new node and add it
+                {
+                    Node node = new Node(key, value);
+                    LinkedListNode<Node> newNode = new LinkedListNode<Node>(node);
+                    if (dict.Count() < capacity)
+                    {
+                        dict.Add(key, newNode);
+                        ll.AddFirst(newNode);
+                    }
+                    else
+                    {
+                        //remove the least used node and add it
+                        int removedKey=ll.Last().key;
+                        ll.RemoveLast();
+                        dict.Remove(removedKey);
+                        dict.Add(key, newNode);
+                        ll.AddFirst(newNode);
+                    }
+                }
+                else
+                {
+                    LinkedListNode<Node> oldNode = dict[key];
+                    oldNode.Value.val = value;
+                    ll.Remove(oldNode);
+                    ll.AddFirst(oldNode);
+                }
+            }
+        }

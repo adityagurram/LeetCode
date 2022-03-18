@@ -1,0 +1,44 @@
+public class Solution {
+    public int CountDigitOne(int n) {
+        //Here the problem is to find the count of integers that are less= given n with digit present in each of its 1,10,100.. th position.
+        
+        //we have used the formulae to calculate the count
+        // curr==1 left * base + (right +1)
+        //curr >1   (left +1 )* base
+        //curr <1  left * base
+        
+        //we do this check for each base 1, 10, 100.. till less than = n
+        
+        if (n==0)
+        {
+            return 0;  
+        }
+        
+        int baseVal =1;
+        int sum=0;
+        while (baseVal <=n)
+        {
+            int left = (int) (n/baseVal)/10; // for ex 114, left at base 1 is 11
+            int curr= (int) (n/baseVal )%10;// for ex 114, curr at base 1 is 4
+            int right = (int)(n%baseVal);// for ex 114, the right at base 1 is 0
+                
+            //now apply the formula
+            if(curr>1)
+            {
+               sum+= (left +1) * baseVal;
+                
+            } else if (curr==1)
+            {
+                 sum+= left * baseVal + (right +1);
+                
+            }else
+            {
+                sum += left *baseVal;
+            }
+            
+            baseVal= baseVal *10;
+        }
+        
+        return sum;//for ex 114 the answer is 42
+    }
+}

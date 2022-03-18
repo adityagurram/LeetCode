@@ -1,0 +1,30 @@
+public class Solution {
+    public int[][] FloodFill(int[][] image, int sr, int sc, int newColor) {
+        
+        if(image==null || image.Length==0)
+        {
+            return null;
+        }
+        
+        helper(ref image, sr, sc, newColor, image[sr][sc]);
+        return image;
+    }
+    
+    public void helper(ref int[][] image, int i, int j, int newColor, int existingColor)
+    {
+        if(i<0 || j<0 || i>= image.Length ||  j>= image[i].Length || image[i][j]!= existingColor ||  image[i][j]== newColor)
+        {
+            return;
+        }
+        
+        image[i][j]=newColor;
+        
+                helper(ref image, i-1, j,newColor,existingColor  );
+                helper(ref image, i, j-1,newColor,existingColor  );
+                helper(ref image, i+1, j,newColor,existingColor  );
+                helper(ref image, i, j+1,newColor,existingColor  );
+        
+        return;
+        
+    }
+}

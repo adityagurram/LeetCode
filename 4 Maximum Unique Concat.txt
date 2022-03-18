@@ -1,0 +1,58 @@
+
+//Here we have used the answerlist to calculate each and every possibility of the concatenated unique string and at the end we have looped thry all the string elements to find the max len.
+
+public class Solution {
+    public int MaxLength(IList<string> arr) {
+        
+        if (arr == null || arr.Count() == 0)
+            {
+                return 0;
+            }
+
+            
+
+        List<string> answerList= new List<string> ();
+        answerList.Add("");
+        
+            foreach(string str in arr)
+            {                
+                if(CheckForUniqueness(str)==false)
+                continue; 
+                List<string> tempSolution = new List<string>();
+                foreach(string s in answerList)
+                {
+                    string temp= s + str;
+                    if(CheckForUniqueness(temp))
+                    {
+                        tempSolution.Add(temp);
+                    }
+                    
+                }
+                answerList.AddRange(tempSolution);               
+
+            }
+        
+        
+              int max = Int32.MinValue; 
+        foreach (string s in answerList)
+        {
+            max=Math.Max(s.Length, max);
+        }
+            return max;
+    }
+    
+    private bool CheckForUniqueness(string str)
+    {
+        char [] cArray= str.ToCharArray();
+        StringBuilder sb= new StringBuilder();
+        foreach (char c in cArray )
+        {
+            if(sb.ToString ().Contains (c))
+            {
+                return false;
+            }
+            sb.Append(c);
+        }
+        return true;
+    }
+}

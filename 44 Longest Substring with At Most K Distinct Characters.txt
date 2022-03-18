@@ -1,0 +1,51 @@
+public class Solution {
+    public int LengthOfLongestSubstringKDistinct(string s, int k) {
+        
+        //edge case
+        
+        if(s.Length==0 || k==0)
+        {
+            return 0;
+        }
+        
+        int start=0;
+        int end=0;
+        int result=0;
+        Dictionary<char, int> dict= new Dictionary<char, int>();
+        
+        while (end< s.Length)
+        {
+            char c= s[end];
+            
+            if(!dict.ContainsKey (c))
+            {
+                dict.Add (c,1);
+            }
+            else
+            {
+                dict[c]++;
+            }
+            
+            while (dict.Count () >k)
+            {
+                             
+               int count = dict[s[start]];
+                if(count >1)
+                {
+                    dict[s[start]]--;
+                }
+                else
+                {
+                    dict.Remove (s[start]);
+                }
+                start++;   
+            }
+            
+            result= Math.Max(result, end-start +1);
+            
+            end++;
+        }
+        
+        return result;
+    }
+}

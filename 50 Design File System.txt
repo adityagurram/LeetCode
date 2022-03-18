@@ -1,0 +1,81 @@
+
+public class Node 
+{
+    public int val=0;
+   public  Dictionary<string, Node> dict  = new   Dictionary<string, Node>();// This is like a tree storing its children and its value
+}
+
+public class FileSystem {
+    Node root;    
+    public FileSystem() {        
+    root= new Node ();        
+    }
+    
+    public bool CreatePath(string path, int value) {        
+        
+        //For creating the tree, we need to validate the base address first then create the child
+        
+        string [] pathNodes= path.Split ('/');// ignore the 0th index as it will be empty /a => "", "a"
+        Node current= root;
+        if (pathNodes .Length <=1) return false;// Invalid path like "/"
+        
+        for(int i=1; i< pathNodes.Length -1 ; i++)// here I m ignoring the last path item because we need to validate the root path first and then add its children. you do that validation check till the entire path apart from the last node is validated successfully
+        {
+            if(!current.dict.ContainsKey (pathNodes [i]))
+            {
+                // root is not present means input is invalid "/a/b" where we dont have a node.
+                return false;
+            }
+            else
+            {
+                //get the pointer to the root node and traverse ahead
+                current= current.dict[pathNodes[i]];
+            }            
+        }
+        
+        //Now that the root is updated to the valid path pointer, we need to create our child node        
+        Node child = new Node ();
+        child.val= value;
+        string key= pathNodes [pathNodes.Length -1];
+        if(!current.dict.ContainsKey (key))
+        {
+              current.dict. Add (key, child);
+        }
+      else
+      {
+          return false;         
+          //current.dict.Remove (key); These two stms are for update but that's not the requirement
+         // current.dict. Add (key, child);
+          
+      }
+        return true;
+        
+    }
+    
+    public int Get(string path) {
+        
+           string [] pathNodes= path.Split ('/');// ignore the 0th index as it will be empty /a => "", "a"
+        
+       if (pathNodes .Length <=1) return -1;
+       Node current= root;
+        for(int i=1; i< pathNodes.Length ; i++)
+        {
+            if(!current.dict.ContainsKey(pathNodes [i]))
+            {
+                return -1;
+            }
+            else
+            {
+                current=current.dict[pathNodes [i]];
+            }
+        }
+        return current.val;
+    }
+}
+
+/**
+ * Your FileSystem object will be instantiated and called as such:
+ * FileSystem obj = new FileSystem();
+ * bool param_1 = obj.CreatePath(path,value);
+ * int param_2 = obj.Get(path);
+ */

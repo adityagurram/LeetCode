@@ -1,0 +1,38 @@
+public class Solution {
+    public int[] SumZero(int n) {
+        int [] result= new int[n];
+        int i=0;
+        int j= n-1;  
+         if(n%2!=0)
+        {
+            result [n/2]=0;
+        }
+        while (i<j)
+            {
+                result[i]=-n;
+                result [j]=n;
+                i++;
+                j--;
+                n--;
+            }
+        return result;
+    }
+}
+
+//Another Approach
+public class Solution {
+    public int[] SumZero(int n) {
+        int [] result= new int[n];
+        int sum=0;
+        int number=n;
+        for(int i=1; i< number ; i++)
+        {
+            result [i]=n;
+            sum= sum + n;
+            n--;
+            
+        }
+        result [0]= sum * -1;
+        return result;
+    }
+}

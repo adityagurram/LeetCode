@@ -1,0 +1,93 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int val=0, TreeNode left=null, TreeNode right=null) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+public class Solution {
+    List<int> result= new List<int>();
+    public IList<int> BoundaryOfBinaryTree(TreeNode root) {
+        
+        if(root==null)
+        {
+            return result;
+        } 
+        result.Add(root.val);
+        
+       if(root.left!=null)
+       {
+            helper_left(root.left);
+       }
+       
+        if(root.left!=null || root.right!=null)
+        helper_leaf(root);
+       
+        if(root.right!=null)
+        {
+            helper_right(root.right);
+        }
+        return result;
+    
+    }
+    
+private void helper_left(TreeNode root)
+{
+    if(root.left!=null)
+    {  
+        result.Add(root.val); 
+        helper_left(root.left);
+        
+    }
+    else if (root.right!=null)
+    {
+         result.Add(root.val);
+         helper_left(root.right);
+    }
+}
+    
+private void helper_right(TreeNode root)
+{
+    if(root.right!=null)
+    {       
+          helper_right(root.right);
+          result.Add(root.val);
+    }
+    else if(root.left!=null)
+    {
+      
+          helper_right(root.left);
+          result.Add(root.val);
+    }
+    
+    
+}
+    
+private void helper_leaf(TreeNode root)
+{
+        if(root.left!=null)
+        {
+            helper_leaf(root.left);
+        }
+  
+        if(root.left==null && root.right==null)
+        {
+            result.Add(root.val);
+        }
+    
+        if(root.right!=null)
+        {
+            helper_leaf(root.right);
+        }
+}
+    
+    
+    
+   
+}

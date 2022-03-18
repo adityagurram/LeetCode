@@ -1,0 +1,70 @@
+public class LetterCount
+        {
+            public LetterCount(char letter, int count)
+            {
+                Letter = letter;
+                Count = count;
+            }
+
+            public char Letter { get;  set; }
+            public int Count { get; set; }
+        }
+
+
+
+        public static int GetLengthOfOptimalCompression(string s, int k)
+        {
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                if (!dict.ContainsKey(s[i]))
+                {
+                    dict.Add(s[i], 1);
+                }
+                else
+                {
+                    dict[s[i]]++;
+                }
+            }
+            //sorted set is a priority Queue
+            SortedSet<LetterCount> sdict = new SortedSet<LetterCount>(Comparer<LetterCount>.Create((a, b) =>
+            {
+                return a.Count == b.Count ? a.Letter.CompareTo(b.Letter) * -1 : a.Count.CompareTo(b.Count);
+            }));
+
+  for (int i = 0; i < s.Length; i++)
+            {                               
+                 sdict.Add(new LetterCount(s[i],dict[s[i]] ));// add or remove key   
+            }
+}
+
+
+public class Pair
+        {
+            public Pair(int p, int v)
+            {
+                this.p= p;
+                this.v= v;
+            }
+
+            public int p{ get;  set; }
+            public int v{ get; set; }
+        }
+             
+
+        
+         SortedSet<Pair> minHeap = new SortedSet<Pair>(Comparer<Pair>.Create((a, b) =>
+            {
+                if (a == b) return 0;
+                int res = a.e.CompareTo(b.e);
+                return res == 0 ? 1 : res;
+            }));
+
+
+
+        //How to sort the 2D array. Based on start time        
+        intervalsData=intervals.OrderBy (row=> row[0]).ToArray();
+
+    //listOfLists.Select(list => list.ToArray()).ToArray(); converting 2d list inoto 2d array
+        

@@ -1,0 +1,47 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public TreeNode LowestCommonAncestor(TreeNode root, TreeNode[] nodes) {
+        
+        if(nodes.Length ==1) return nodes[0];
+        
+        
+        
+        //First Let's Add all the nodes in the array to the SET
+        
+        HashSet<TreeNode> set= new HashSet<TreeNode> ();
+        
+        for(int i=0; i< nodes.Length; i++)
+        {
+            set.Add (nodes[i]);
+        }
+        
+        return LCA (root, set);
+    }
+    
+    private TreeNode LCA (TreeNode root, HashSet<TreeNode> set)
+    {
+        
+        
+        if(root== null) return root;
+        
+        if(set.Contains (root)) return root;
+        
+        
+        TreeNode left= LCA(root.left, set );
+        TreeNode right= LCA (root.right, set);
+        
+        if(left!=null && right !=null) return root;
+        
+        if(left==null) return right;
+        
+        return left;
+    }
+}

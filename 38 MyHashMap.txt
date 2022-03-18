@@ -1,0 +1,87 @@
+public class Pair 
+{
+    public int key {set; get;}
+    public int value {set; get;}
+    public Pair(int key, int value)
+    {
+        this.key= key;
+        
+        this.value= value;
+    }
+}
+
+public class MyHashMap {
+
+    public LinkedList<Pair> kvp;
+    public MyHashMap() {
+        kvp= new LinkedList<Pair> ();
+    }
+    
+    public void Put(int key, int value) {
+      
+      if (kvp.Count() == 0)
+            {
+                kvp.AddFirst(new Pair(key, value));
+            }
+
+            else
+            {
+                Pair temp = null;
+                bool flag = false;
+                foreach (Pair p in kvp)
+                {
+                    if (p.key == key)
+                    {
+                        temp = p;
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag == true)
+				{
+                    kvp.Remove(temp);
+                    temp.value = value;
+                    kvp.AddFirst(temp);
+                }
+				else
+                {
+                    kvp.AddFirst(new Pair(key, value));
+
+                }
+                    
+
+            }
+    }
+    
+    public int Get(int key) {
+     foreach (Pair p in kvp)
+     {
+         if (p.key== key) return p.value;
+     }
+        return -1;
+    }
+    
+    public void Remove(int key) {
+            Pair temp= null;
+          bool flag= false;
+        foreach (Pair p in kvp)
+            {
+                if(p.key== key)
+                {
+                     temp= p;
+                    flag=true;
+                    break;
+                }                
+            }
+        if(flag)
+        kvp.Remove (temp);
+    }
+}
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.Put(key,value);
+ * int param_2 = obj.Get(key);
+ * obj.Remove(key);
+ */

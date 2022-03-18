@@ -1,0 +1,29 @@
+public class Solution {
+    public int MaximalNetworkRank(int n, int[][] roads) {
+        
+        //Here we need to find the inDegree of each vertex
+        //We also need to store whether there is a direct edge between two cities
+        
+        int [] degree= new int [n];
+        int [,] directEdge= new int [n,n];
+        
+        foreach (int [] road in roads)
+        {
+            degree [road[0]]++;
+            degree [road[1]]++;
+            directEdge[road[0],road[1]]=1;
+            directEdge[road[1],road[0]]=1;
+            
+        }
+        int max= Int32.MinValue;
+        for(int i=0; i< n; i++)
+        {
+            for(int j=i+1; j<n; j++)
+            {
+                max= Math.Max(max, degree [i] + degree [j]- directEdge[i,j]);
+            }
+        }
+        
+        return max;
+    }
+}

@@ -1,0 +1,51 @@
+public class Solution {
+    public int MaxNumberOfFamilies(int n, int[][] reservedSeats) {
+        //First we need to save the reserved seats in a hash map to check whether a we use the spots for a booking
+        // There are only 2 (4 person) seats can be allocated at max
+        //check if 2,3,4,5 || 6,7,8,9 are reserved that means we can't do 2 seats. max we can do is 1
+        //check if 4,5,6,7 are empty
+        
+        Dictionary<int, HashSet<int>> reservedSeatsMap= new Dictionary<int, HashSet<int>>();
+        int maxSeats= n*2;
+        
+        for(int i=0; i< reservedSeats.Length; i++)
+        {
+            int row= reservedSeats[i][0];
+            int seatNumber= reservedSeats[i][1];
+            
+            if(!reservedSeatsMap.ContainsKey(row))
+            {
+                reservedSeatsMap.Add(row, new HashSet<int>());
+            }
+            
+                reservedSeatsMap[row].Add(seatNumber);
+            
+        }
+        
+        foreach(int key in reservedSeatsMap.Keys )
+        {
+            int counter=0;
+            
+            if(reservedSeatsMap[key].Contains (2) ||reservedSeatsMap[key].Contains (3) || reservedSeatsMap[key].Contains (4) || reservedSeatsMap[key].Contains (5) )
+            {
+                counter++;
+                maxSeats--;
+            }
+            
+           if(reservedSeatsMap[key].Contains (6) ||reservedSeatsMap[key].Contains (7) || reservedSeatsMap[key].Contains (8) || reservedSeatsMap[key].Contains (9) )
+            {
+                counter++;
+                maxSeats--;
+            }
+            
+            if(!reservedSeatsMap[key].Contains (4) && !reservedSeatsMap[key].Contains (5) && !reservedSeatsMap[key].Contains (6)&& !reservedSeatsMap[key].Contains (7))
+            {
+                if(counter==2)//means we have empty seats 4,5,6,7 and 
+                    maxSeats++;
+            }
+        }
+        
+        return maxSeats;
+        
+    }
+}

@@ -1,0 +1,68 @@
+public class SummaryRanges {
+
+    //First I need to create 2D list to store the stream of values
+    
+    List<List<int>> intervals;
+    public SummaryRanges() {
+        
+        intervals= new List<List<int>>();
+    }
+    
+    public void AddNum(int val) {
+        
+        //We need to store the elements in the sorted order. We use binary search for finding the correct index position
+        //we store each val like [val, val] and merge them when they are next to each other
+        
+        //code for binary search
+        
+        int start=0;
+        int end = intervals.Count () -1;
+        
+        while (start <= end)
+        {
+            int mid = start + (end- start)/2;
+            
+            if(intervals [mid][0]<= val  && val <= intervals [mid][1])//if the incoming value is between the interval we dont have to anything
+            {
+                return;// do nothing
+            }
+            else if (val >= intervals [mid][1])
+            {
+              start= mid +1;
+                
+            }
+            else
+            {
+              end= mid-1;   
+            }
+        }
+        
+        int index= start;        
+        intervals .Insert ( index, new List<int>() {val, val});// we have inserted [[1,1], [2,2], [3,3]]
+        
+        //here we need to see if we can merge the intervals. First we are merging with right and then we go with left
+        if(index != intervals.Count () -1 &&  intervals [index +1][0]== val +1)
+        {
+            intervals [index +1][0]= val;
+            intervals. RemoveAt(index);
+        }
+        
+        if(index !=0 && intervals [index -1][1]==val -1)
+        {
+            intervals [index -1][1]= intervals [index][1];
+            intervals.RemoveAt (index);
+        }
+    }
+    
+    public int[][] GetIntervals() {
+        //this is converting 2D list into 2D array
+        return intervals.Select(list => list.ToArray()).ToArray();;
+    }
+}
+
+/**
+ * Your SummaryRanges object will be instantiated and called as such:
+ * SummaryRanges obj = new SummaryRanges();
+ * obj.AddNum(val);
+ * int[][] param_2 = obj.GetIntervals();
+ */

@@ -1,0 +1,17 @@
+public class Solution {
+    public int TitleToNumber(string columnTitle) {
+        
+        //Here We need to multply the factor with 26 everytime we iterate thru the string
+        
+        int result=0;
+        int factor=1;
+        
+        for(int i= columnTitle.Length -1 ; i>=0; i--)
+        {
+            result= result + factor * (columnTitle [i] - 'A' + 1);
+            factor = factor *26;
+        }
+            
+            return result;
+    }
+}

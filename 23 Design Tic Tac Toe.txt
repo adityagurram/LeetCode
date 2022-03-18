@@ -1,0 +1,45 @@
+public class TicTacToe {
+
+    //Here I need to store row ,col counts for the player (1, -1)
+    int [] rows;
+    int [] cols;
+    int diag=0;
+    int antiDiag=0;
+    public TicTacToe(int n) {
+        rows = new int[n];
+        cols= new int [n];
+    }
+    
+    public int Move(int row, int col, int player) {
+        
+        //first we need to identify the player Let's say it is 1 or -1 (2nd player)
+        
+        int playerNumber= player==1 ? 1: -1;
+        
+        rows[row] += playerNumber;
+        cols[col]+= playerNumber;
+        
+        if(row==col)
+        {
+            diag+=playerNumber;
+        }
+        int size= rows.Length;
+        if(row== rows.Length -1 -col)
+        {
+            antiDiag+=playerNumber;
+        }
+        
+        if(Math.Abs(rows[row])== size ||  Math.Abs(cols[col])== size  || Math.Abs(diag)== size || Math.Abs(antiDiag)==size )
+        {
+            return player;//returning actual player
+        }
+        
+        return 0;
+    }
+}
+
+/**
+ * Your TicTacToe object will be instantiated and called as such:
+ * TicTacToe obj = new TicTacToe(n);
+ * int param_1 = obj.Move(row,col,player);
+ */

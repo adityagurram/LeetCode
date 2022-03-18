@@ -1,0 +1,28 @@
+public class HitCounter {
+Queue<int> hitQueue;
+    public HitCounter() {
+        hitQueue= new Queue<int> ();
+    }
+    
+    public void Hit(int timestamp) {
+        
+        hitQueue.Enqueue(timestamp);
+    }
+    
+    public int GetHits(int timestamp) {
+        
+        while (hitQueue.Count () > 0 && timestamp- hitQueue.Peek() >=300)
+        {
+        hitQueue.Dequeue();
+        }
+        
+        return hitQueue.Count ();
+    }
+}
+
+/**
+ * Your HitCounter object will be instantiated and called as such:
+ * HitCounter obj = new HitCounter();
+ * obj.Hit(timestamp);
+ * int param_2 = obj.GetHits(timestamp);
+ */

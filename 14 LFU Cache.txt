@@ -1,0 +1,67 @@
+public class LFUCache {
+
+    Dictionary<int, int> cache= new Dictionary<int, int> ();
+    Dictionary<int, int> keyCounts= new Dictionary<int, int> ();
+    Dictionary<int, LinkedList<int>> freqMap= new Dictionary<int, LinkedList<int>> ();
+    int capacity;
+    int min=-1;
+    public LFUCache(int capacity) {
+      this.capacity= capacity;
+        freqMap.Add (1, new LinkedList<int>());
+    }
+    
+    public int Get(int key) {
+        if(cache.ContainsKey(key)== false) return -1;
+        
+        int count= keyCounts [key];
+        keyCounts[key]++;
+        
+        freqMap[count].Remove(key);
+        if(min==count && freqMap[count].Count ()==0)
+        {
+            min++;
+        }
+        if(freqMap.ContainsKey (count+1)==false)
+        {
+               freqMap.Add (count +1, new LinkedList<int>());
+        }
+        freqMap[count+1].AddLast(key);
+        
+        return cache[key];
+    }
+    
+    public void Put(int key, int value) {
+        if(capacity <=0) return;
+        
+        if(cache.ContainsKey(key))
+        {
+            cache[key]= value;
+            Get(key);
+            return;
+        }
+        
+        if(cache.Count () >= capacity)
+        {
+            //we need to evict 
+            var enumerator= freqMap[min].GetEnumerator();
+            enumerator.MoveNext();
+            int evict= enumerator.Current;
+            
+            freqMap[min].Remove (evict);
+            keyCounts.Remove (evict);
+            cache.Remove (evict);
+            
+        }
+        cache.Add (key, value);
+        keyCounts. Add (key, 1);
+        min=1;
+        freqMap[1].AddLast(key);
+    }
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.Get(key);
+ * obj.Put(key,value);
+ */

@@ -1,0 +1,62 @@
+public class Pair
+        {
+            public Pair(int s, int e)
+            {
+                this.s= s;
+                this.e= e;
+            }
+
+            public int s{ get;  set; }
+            public int e{ get; set; }
+        }
+public class Solution {
+    
+    public int MinMeetingRooms(int[][] intervals) {
+     
+        if(intervals.Length==0 || intervals== null)
+        {
+            return 0;
+        }
+        int[][] intervalsData = new int[intervals.Length][];
+                 
+        //How to sort the 2D array. Based on start time        
+        intervalsData=intervals.OrderBy (row=> row[0]).ToArray();
+        
+         SortedSet<Pair> minHeap = new SortedSet<Pair>(Comparer<Pair>.Create((a, b) =>
+            {
+                if (a == b) return 0;
+                int res = a.e.CompareTo(b.e);
+                return res == 0 ? 1 : res;
+            }));
+        
+                   int oldStart = intervalsData[0][0];
+            int oldEnd = intervalsData[0][1];
+        
+        minHeap.Add (new Pair (oldStart, oldEnd));
+        
+        for(int i=1; i<intervalsData.Length; i++)
+        {
+            Pair current = new Pair (intervalsData [i][0], intervalsData [i][1]);
+            
+            Pair earliest= minHeap.First();
+            minHeap.Remove (minHeap.First());
+            
+            if(current.s >= earliest .e)
+            {
+                //I can reuse the room
+                earliest.e= current.e;
+            }
+            else
+            {
+                minHeap.Add (current);
+            }
+            
+            //Since we removed earliest , we need to add it back
+            
+            minHeap.Add (earliest);
+            
+        }
+        
+        return minHeap.Count ();
+    }
+}

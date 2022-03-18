@@ -1,0 +1,105 @@
+
+//Approach is correct
+
+
+public  class Coordinates
+{
+    public int p {get; set;}
+    public int q {get; set;}
+    
+    public Coordinates(int p, int q)
+    {
+        this.p= p;
+        this.q= q;
+    }
+}
+
+public class Solution {
+    
+    
+    public int MinKnightMoves(int x, int y) {
+        
+        int start=0;
+        int end=0;
+        HashSet<string> set= new HashSet<string>();
+        Queue<Coordinates> queue= new Queue<Coordinates>();
+        
+        queue.Enqueue (new Coordinates (start, end));
+        set.Add (start +","+ end);
+        int level=-1;
+        while (queue.Count () > 0)
+        {
+            int queueCount= queue.Count ();
+            level ++;
+            for(int k=0 ; k< queueCount;k++)
+            {
+                Coordinates temp= queue.Dequeue();
+                int i= temp.p;
+                int j= temp.q;
+                
+                if(i== x && j==y)
+                {
+                    return level;
+                }
+                
+                if(!set.Contains ( i+1 + "," + j+2))
+                {
+                      queue.Enqueue( new Coordinates (i+1, j+2));
+                      set.Add ( i+1 + "," + j+2);
+                }
+             
+                
+                if(!set.Contains ( i+2+ "," + j+1))
+                {
+                      queue.Enqueue( new Coordinates (i+2, j+1));
+                    set.Add ( i+2+ "," + j+1);
+                }
+              
+                
+                if(!set.Contains (i-1+"," + j+2))
+                {
+                       queue.Enqueue( new Coordinates (i-1, j+2));
+                    set.Add (i-1+"," + j+2);
+                }
+             
+                
+                if(!set.Contains (i-2+"," + j+1))
+                {
+                              queue.Enqueue( new Coordinates (i-2, j+1));
+                    set.Add (i-2+"," + j+1);
+                }
+      
+                
+                if(!set.Contains (i+1+ "," + (j-2)))
+                {
+                         queue.Enqueue( new Coordinates (i+1, j-2));
+                    set.Add (i+1+ "," + (j-2));
+                }
+           
+                
+                if(!set.Contains (i+2+ "," + (j-1)))
+                {
+                               queue.Enqueue( new Coordinates (i+2, j-1)); 
+                    set.Add (i+2+ "," + (j-1));
+                }
+    
+                
+                if(!set.Contains (i-1+ "," + (j-2)))
+                {
+                     queue.Enqueue( new Coordinates (i-1, j-2));
+                    set.Add (i-1+ "," + (j-2));
+                
+                }
+               
+                if(!set.Contains (i-2+ "," +( j-1)))
+                {
+                             queue.Enqueue( new Coordinates (i-2, j-1)); 
+                    set.Add (i-2+ "," +( j-1));
+                }
+      
+            }
+        }
+        
+        return level;
+    }
+}

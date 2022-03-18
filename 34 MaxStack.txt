@@ -1,0 +1,65 @@
+public class MaxStack {
+
+    LinkedList<int> maxStack;
+    SortedDictionary<int, int> dict;
+    
+    public MaxStack() {
+        maxStack= new LinkedList<int>();
+        dict= new SortedDictionary<int, int>();
+    }
+    
+    public void Push(int x) { 
+        
+       maxStack.AddFirst(x);
+        
+       if(!dict.ContainsKey (x))
+       {
+           dict.Add (x, 1);
+       }        
+        else
+        {
+         dict[x]++;   
+        }
+        
+    }
+    
+    public int Pop() {
+        if(maxStack.Count () ==0) return 0;
+        int temp= maxStack.First();
+        maxStack.RemoveFirst();
+        dict[temp]--;
+        if(dict[temp]==0) dict.Remove(temp);
+        return temp;
+    }
+    
+    public int Top() {
+        if(maxStack.Count () == 0) return 0;
+        
+        return maxStack.First();
+    }
+    
+    public int PeekMax() {
+        
+        return dict.Last().Key;
+    }
+    
+    public int PopMax() {
+        
+         int temp= dict.Last().Key;
+         maxStack.Remove(temp);
+         dict[temp]--;
+        if(dict[temp]==0) dict.Remove(temp);
+         
+        return temp;
+    }
+}
+
+/**
+ * Your MaxStack object will be instantiated and called as such:
+ * MaxStack obj = new MaxStack();
+ * obj.Push(x);
+ * int param_2 = obj.Pop();
+ * int param_3 = obj.Top();
+ * int param_4 = obj.PeekMax();
+ * int param_5 = obj.PopMax();
+ */

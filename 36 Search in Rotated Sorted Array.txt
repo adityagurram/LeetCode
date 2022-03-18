@@ -1,0 +1,58 @@
+public class Solution {
+    public int Search(int[] nums, int target) {
+        
+        int left=0;
+        int right = nums.Length -1;
+        
+        while (left < right)
+        {
+            int mid = left + (right - left)/2;
+            
+            if(nums [mid] > nums [right])
+            {
+                left= mid +1;// we need to search right sider
+            }
+            else
+            {
+                right = mid;// we are not doing mid -1 as this case handles both < and = so we need to take care of mid as well in our search
+            }
+        }
+        //this loop will break when  left and right are equal which is the position we are interested 
+        
+        int shiftIndex=left;
+        left=0;
+         right = nums.Length - 1;
+        
+        //Now we need to do a binary search based on target. which side of the sorted array it was falling
+        
+        if (target >= nums [shiftIndex] && target <= nums [right])
+        {
+            left= shiftIndex;
+        }
+        else
+        {
+            right = shiftIndex;
+        }
+        
+        while (left <= right)
+        {
+            int mid = left + (right - left )/2;
+            
+            if (target == nums [mid])
+            {
+                return mid;
+            }
+            
+            else if (target < nums [mid])
+            {
+                right = mid -1;
+            }
+            else
+            {
+                left= mid +1;
+            }
+        }
+        
+        return -1;
+    }
+}

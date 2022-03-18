@@ -1,0 +1,60 @@
+public class Solution {
+    public int Calculate(string s) {
+     
+        
+        // Here we need to loop thru the string and calculate the sum
+        //When we see a number, do a while loop to calculate whole number like 999
+        //when you see (  then push the sign and sum into the stack
+        //when you see ) then pop the sign and prev sum  and add it to curr sum
+     int sum=0;
+     int sign=1;
+     Stack<int> stack= new Stack <int>();   
+      for(int i=0; i< s.Length; i++)
+      {
+          //number
+          if(s[i]>='0' && s[i]<='9')
+          {
+              int num=0;
+              while (i< s.Length && s[i]>='0' && s[i]<='9')
+              {
+                  num= num*10 + s[i]-'0';
+                  i++;
+              }
+
+              sum+= num * sign;
+              i--; //As we have iterated ahead
+          }
+         
+          //+
+          else if (s[i]=='+')
+          {
+              sign=1;
+          }
+          
+          //-
+          else if (s[i]=='-')
+          {
+              sign=-1;
+          }
+          //(
+          else if (s[i]=='(')
+          {
+              stack.Push(sum);
+              stack.Push(sign);
+              sum=0;
+              sign=1;
+          }
+          //)
+          
+          else if(s[i]==')')
+          {
+              sum= sum *stack.Pop();//this is the sign we popped
+              sum+= stack.Pop() ;//Adding the previously stored sum to the curr sum
+              
+          }
+          
+      }
+        
+        return sum;
+    }
+}

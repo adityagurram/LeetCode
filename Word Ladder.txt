@@ -1,0 +1,74 @@
+public class Solution {
+        public  int LadderLength(string beginWord, string endWord, IList<string> wordList)
+        {
+            //First Declare a Set to dump all the words in the list
+            //If the endword is not present then return 0 now.
+
+            HashSet<string> set = new HashSet<string>();
+            bool isPresent = false;
+            foreach (string s in wordList)
+            {
+                if (!set.Contains(s))
+                {
+                    set.Add(s);
+                }
+                if (s == endWord)
+                {
+                    isPresent = true;
+                }
+            }
+
+            if (isPresent == false)
+            {
+                return 0;
+            }
+            //Now Create a Queue to hold the transformed words and start with by adding begind word
+            Queue<string> q = new Queue<string>();
+            q.Enqueue(beginWord);
+            int depth = 0;
+
+            while (q.Count() > 0)
+            {
+                //remove the top element from the queue and do the transformations           
+                int queueSize = q.Count();
+                depth++;
+                for (int i = 0; i < queueSize; i++)
+                {
+                    string temp = q.Dequeue();
+                  
+
+                    for (int j = 0; j < temp.Length; j++)
+                    {
+                        char[] curr = temp.ToCharArray();
+
+                        for (char c = 'a'; c <= 'z'; c++)
+                        {
+                            curr[j] = c;//this is the new transformed word
+                            string currentWord = new string(curr);
+                            //check if this is the end word
+
+                            if (currentWord == endWord)
+                            {
+                                return depth +1;
+                            }
+
+                            if (currentWord == temp)
+                            {
+                                continue;
+                            }
+                            if (set.Contains(currentWord))
+                            {
+                                //push it to Q
+                                q.Enqueue(currentWord);
+                                set.Remove(currentWord);
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            return 0;
+        }
+
+}

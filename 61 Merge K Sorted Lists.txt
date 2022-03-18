@@ -1,0 +1,78 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public int val;
+ *     public ListNode next;
+ *     public ListNode(int val=0, ListNode next=null) {
+ *         this.val = val;
+ *         this.next = next;
+ *     }
+ * }
+ */
+ 
+public class Solution {
+    public ListNode MergeKLists(ListNode[] lists) {
+       // We can use divide and conquer approach to split the lists into halves and then merge it recursively
+        
+        if(lists==null || lists.Length==0)
+        {
+            return null;
+        }
+        
+        return MergeHelper(lists, 0, lists.Length -1);
+    }
+    
+    public static ListNode MergeHelper(ListNode[] lists, int start, int end )
+    {
+        if(start==end)
+        {
+            return lists[start];
+        }
+        
+        int mid= start + (end - start)/2;
+        
+        ListNode left= MergeHelper(lists, start, mid);
+        ListNode right= MergeHelper(lists,mid+1, end);
+        
+        return merge (left, right);
+    }
+    
+    public static ListNode merge (ListNode left , ListNode right)
+    {
+        ListNode dummy= new ListNode (-1);
+        ListNode current= dummy;
+        int newVal=0;
+        while (left !=null && right !=null)
+        {
+             
+            if(left.val <= right.val)
+            {
+                newVal= left.val;
+                left= left.next;
+            }
+            else
+            {
+                newVal= right.val;
+                right= right.next;
+            }
+            current.next= new ListNode (newVal);
+            current= current.next;
+        }
+        
+        while (left!=null)
+        {
+            current.next= new ListNode (left.val);
+            current = current.next;
+            left= left.next;
+        }
+        
+        while (right!=null)
+        {
+            current.next= new ListNode (right.val);
+            current = current.next;
+            right= right.next;
+        }
+        
+        return dummy.next;
+    }
+}

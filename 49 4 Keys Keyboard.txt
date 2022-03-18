@@ -1,0 +1,42 @@
+public class Solution {
+    
+    //This is a Dynamic Programming Problem where you need to find the F(N) value using the previously calculated values and storing their results.
+    //For example If N=1 then return 1
+    //For exmaple if N=2 then return 2 this will go on till N=6 and then return 6 as that's the max value u can get.
+    //The tricky case is when N=7 where u can get Max { 2* F(N-3), 3 * F(N-4), 4 * F (N-5), 5 * F(1)}
+    //                                                  AAAA CA CC CV=8, AAA CA CC CV CV CV=9, AA CA CC CV CV CV =8, A CA CC CV CV CV CV =5
+    //Now ur code should work for a general case of F(N) using the above cases. We can use memoization technique/ top down for this
+    //global max
+    
+
+    public int MaxA(int n) {
+        
+        //If N<=6 then return N
+        //If N <0 then return -1
+     
+        if (n <0) return -1;
+        
+        int [] table = new int [n+1];
+       for(int k=0; k<=n ; k++)
+       {
+           table [k]=k;
+       }
+        
+        if(n<=6) return table [n];
+        
+      
+        for(int i=7; i<=n; i++)
+        {
+           int multiplier=2;
+           for(int j= i-3; j>=0; j--)
+           {
+               table [i]= Math. Max (table [i], multiplier* table [j]);
+                   multiplier++;
+           }
+        }
+        
+    return     table [n];
+        
+    }
+    
+}

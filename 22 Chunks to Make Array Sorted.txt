@@ -1,0 +1,38 @@
+public class Solution {
+    public int MaxChunksToSorted(int[] arr) {
+        
+        
+        //The algo here is to find the leftMax (left to right)value for each postion of arr and also right min value for each position from right to left        
+        int len= arr.Length;  
+        
+        int [] leftMax= new int [len];
+        int [] rightMin= new int [len +1];
+        
+        int lMax=Int32.MinValue;
+        for(int i=0; i< len; i++)
+        {
+            lMax= Math.Max (lMax, arr[i]);
+            leftMax[i]= lMax;
+        }
+        
+        int rMin= Int32.MaxValue;
+        for(int i= len-1; i>=0; i--)
+        {
+            rMin= Math.Min (rMin, arr[i]);
+            rightMin[i]= rMin;
+        }
+        
+        int count =0;
+        rightMin[len]=  Int32.MaxValue;
+        for(int i=0; i< len; i++)
+        {
+            if(leftMax[i]<= rightMin[i+1])
+            {
+                count ++;
+            }
+        }
+        
+        return count;
+        
+    }
+}

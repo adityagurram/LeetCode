@@ -1,0 +1,84 @@
+public class Solution {
+    int timeStamp=0;
+    public bool CanFinish(int numCourses, int[][] prerequisites) {
+        
+        //here we need to check if there is a cycle in a  DAG graph
+        
+        int [] visited= new int [numCourses];
+        int [] arrival= new int [numCourses];
+        int [] departure= new int [numCourses];
+        
+        for(int i=0; i< numCourses; i++)
+        {
+            visited[i]=-1;            
+            arrival[i]=-1;
+            departure [i]=-1;            
+        }
+        
+        //build the graph
+        
+        Dictionary<int , List<int>> adjList= new Dictionary<int, List<int>> ();
+        
+        foreach (int [] arr in prerequisites )
+        {
+            int v1= arr[0];
+            int v2= arr[1];
+            if(!adjList.ContainsKey(v2))
+            {
+                adjList.Add (v2, new List<int> ());
+                adjList[v2].Add (v1);
+            }
+           else {
+                   adjList[v2].Add (v1);
+            }
+        }
+        
+        for(int v=0; v< numCourses; v++)
+        {
+            if(visited[v]==-1)
+            {
+                    if(DFS(v, ref visited, ref arrival, ref departure, adjList))
+                    {
+                         return false;
+                    }
+            }
+        }
+        
+        
+        
+        return true;
+        
+        
+        
+    }
+    
+    private bool DFS(int node, ref int [] visited,ref  int [] arrival,ref int [] departure,  Dictionary<int , List<int>> adjList)
+    {
+        
+        visited[node]=1;
+        arrival[node]= timeStamp++;
+        if(adjList.ContainsKey(node))
+        foreach (int neighbor in adjList[node])
+        {
+            if(visited[neighbor]==-1)
+            {
+                if(DFS(neighbor, ref visited, ref arrival, ref departure, adjList))//cycle found
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if(departure [neighbor]==-1)
+                {
+                    return true;
+                }
+            }
+            
+        }
+        
+        departure[node]=timeStamp++;
+        return false;
+        
+    }
+}

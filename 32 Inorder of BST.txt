@@ -1,0 +1,55 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     public int val;
+ *     public TreeNode left;
+ *     public TreeNode right;
+ *     public TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+   
+    public TreeNode InorderSuccessor(TreeNode root, TreeNode p) {
+        //we have two cases here 
+        //one when the node that u want to find has the left subtreee
+        //other whenever u take the left turn,save the root node of that left turn which will give the successort in BST
+        //First find the node that is required to searched in the BST      
+        
+    if (root ==null) return null;
+        
+    TreeNode temp=null;   
+    while (root!=null)
+    {
+        
+        if(p.val< root.val)
+        {
+             temp= root;             
+             root=root.left;
+        }
+        else if(p.val> root.val)
+        {
+            root=root.right;
+        }
+        else
+        {
+            //This is the node we have searched
+            if(root.right!=null)
+            {
+                TreeNode t= root.right;
+                while (t.left!=null)
+                {
+                    t= t.left;
+                }
+                 return t;
+            }
+            else
+            {
+                 return   temp;
+            }           
+        }           
+         
+    }
+        return null;
+    }
+    
+}

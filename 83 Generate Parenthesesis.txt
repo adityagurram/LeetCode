@@ -1,0 +1,32 @@
+public class Solution {
+    public IList<string> GenerateParenthesis(int n) {
+        //we can use backtracking to solve the problem
+        
+        List<string> result= new List<string> ();
+        
+        helper(result, n, 0, 0 ,"");
+        return result;
+        
+    }
+    
+    private void helper(List<String> result, int n, int open, int close, string current)
+    {
+        if(current.Length== n*2)
+        {
+            //base case is achieved
+            result. Add (current);
+            return ;
+        }
+        
+        if(open < n)
+        {
+            helper(result, n, open + 1, close, current + "(");
+        }
+        
+        if(close < open )
+        {
+             helper(result, n, open , close+1, current + ")");
+        }
+        
+    }
+}

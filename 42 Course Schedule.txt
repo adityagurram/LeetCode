@@ -1,0 +1,82 @@
+public class Solution {
+    public int timeStamp=0;
+    public int[] FindOrder(int numCourses, int[][] prerequisites) {
+     
+        //First I need to build the graph with adj list
+        
+        //next a DFS call to check if there is a cycle and then return empty array.
+        
+        //otherwise we need to add the courses that are visited at the end of the DFS call and return the reverse order of the list.
+        
+      
+        int [] arrival= new int [numCourses];
+        int [] departure = new int [numCourses];
+        int [] visited = new int [numCourses];
+        
+        for(int i=0; i< numCourses ; i++)
+        {
+            arrival[i]=-1;
+            departure[i]=-1;
+            visited[i]=-1;
+        }
+        
+        Dictionary<int, List<int>> adjList= new Dictionary<int, List<int>>();       
+        List<int> topSort= new List<int> ();
+        foreach (int [] arr in prerequisites)
+        {
+            int v1= arr[0];
+            int v2= arr[1];
+            
+            if(!adjList.ContainsKey(v2))
+            {
+                adjList.Add (v2, new List<int>() {v1});
+            }
+            else
+            {
+                adjList[v2].Add (v1);
+            }
+        }
+         for (int node =0; node < numCourses; node++)
+            {
+            if(visited[node]==-1)
+            if( DFS(node, ref arrival,ref departure, ref visited, ref topSort, adjList)==true)
+               {
+                  return new List<int> ().ToArray();
+               }
+        }
+       
+        topSort.Reverse();
+        return topSort.ToArray();
+    }
+    
+    
+    private bool DFS(int node,ref int[] arrival, ref int [] departure, ref int [] visited, ref List<int> topSort,   Dictionary<int, List<int>> adjList)
+    {
+        arrival [node]=timeStamp++;
+        visited[node]=1;
+        if(adjList.ContainsKey(node))
+        foreach (int neighbor in adjList[node] )
+        {
+            if(visited[neighbor]==-1)
+            {
+               if( DFS(neighbor,ref arrival, ref departure, ref visited, ref topSort, adjList))
+               {
+                   return true;
+               }
+            }
+            else
+            {
+                if(departure [neighbor]==-1)
+                {
+                    return true;//cycle is found
+                }
+            }
+        }
+        
+        
+        departure [node]= timeStamp++;
+        topSort.Add (node);
+        
+        return false;//no cycle found
+    }
+}

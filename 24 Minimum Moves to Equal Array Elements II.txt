@@ -1,0 +1,25 @@
+public class Solution {
+    public int MinMoves2(int[] nums) {
+        //the trick part is find the median and count the number of operations required.
+        
+        Array.Sort(nums);
+        int medianIndex=0;
+        
+        if(nums.Length%2==0)
+        {
+                medianIndex= nums.Length/2;
+        }
+        else
+        {
+                   medianIndex= nums.Length/2 +1;
+        }
+        medianIndex--;//since array is starting at 0
+        int median= nums [medianIndex];
+        int operations =0;
+        for(int i=0; i< nums.Length; i++)
+        {
+            operations +=Math.Abs(median- nums [i]);
+        }
+    return operations;
+    }
+}

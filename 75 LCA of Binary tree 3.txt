@@ -1,0 +1,33 @@
+/*
+// Definition for a Node.
+public class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node parent;
+}
+*/
+
+public class Solution {
+    public Node LowestCommonAncestor(Node p, Node q) {
+        
+        //Since we dont have the root here, we need to store the P ancestors in a hashset and iterate thru Q to find the matching ancestor
+        HashSet<Node> set= new HashSet<Node>();
+        
+        while(p!=null)
+        {
+            set.Add (p);
+            p= p.parent;
+        }
+        
+        while (q!=null)
+        {
+            if(set.Contains (q)) return q;
+            q= q.parent;
+        }
+        return null;
+    }
+    
+   
+
+}

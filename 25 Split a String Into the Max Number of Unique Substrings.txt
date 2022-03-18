@@ -1,0 +1,27 @@
+public class Solution {
+    public int MaxUniqueSplit(string s) {
+        
+        HashSet<string> set= new HashSet<string>();
+  
+        return helper(s, set);
+      
+    }
+    
+    private int helper(string s, HashSet<string> slate)//here slate is just a helper, not saving any answers so we dont write any base case to break backtrack
+    {
+        int max=0;
+        
+        for(int i=1; i<= s.Length; i++)//we are generating each and every case (exponential time complexity)
+        {
+            string candidate= s.Substring (0, i);
+            if(!slate.Contains (candidate))
+            {
+                slate.Add(candidate);// in BackTracking u add something to slate, after recursive call u remove that.
+                int remCount=1+ helper (s.Substring(i), slate); // here we are passing the remaining part of the string and calculating its max count
+                max= Math.Max(max,remCount);
+                slate.Remove (candidate);//Remove that was added.                
+            }
+        }
+        return max;
+    }
+}

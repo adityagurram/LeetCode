@@ -1,0 +1,54 @@
+public class Solution {
+    public string DecodeString(string s) {
+        //This is a two stack problem as we need to save the number and word thatb we have seen before going deep inside the string
+        
+        if (s.Length==0)
+        {
+            return string.Empty;
+        }
+        
+        Stack<int> numberStack= new Stack<int> ();
+        Stack<string> wordStack= new Stack<string> ();
+        
+        int number=0;
+        StringBuilder sb= new StringBuilder ();
+        
+        
+        for(int i=0; i< s.Length; i++)
+        {
+            char c= s[i];
+           
+            if( char.IsDigit(c))
+            {
+                number = number * 10 + Convert.ToInt32(c.ToString ());
+            }
+            else if(char.IsLetter(c))
+            {
+                sb.Append (c);
+            }
+            else if (c=='[')
+            {
+                numberStack.Push(number);
+                wordStack.Push(sb.ToString());
+                number=0;
+                sb= new StringBuilder ();
+            }else//means "]"
+            {
+                //remove the number from the stack and duplicate the word those number times
+                
+                int dupCount= numberStack.Pop();
+                string appendStr= wordStack.Pop();
+                StringBuilder sbDup= new StringBuilder ();
+                for(int j=0; j< dupCount; j++)
+                {
+                    sbDup.Append (sb);
+                }
+               string temp= appendStr+ sbDup.ToString ();
+                sb= new StringBuilder ();
+                sb.Append (temp);
+            }
+        }
+        
+        return sb.ToString ();
+    }
+}

@@ -1,0 +1,25 @@
+public class Codec {
+
+    long pk=1;
+    Dictionary<string, string> org= new Dictionary<string, string> ();
+    string tiny= "http://tinyurl.com/";
+    // Encodes a URL to a shortened URL
+    public string encode(string longUrl) {
+        pk++;
+    org.Add (pk.ToString (),  longUrl);
+    return tiny + pk.ToString();    
+    }
+
+    // Decodes a shortened URL to its original URL.
+    public string decode(string shortUrl) {
+        string [] split= shortUrl.Split ('/');
+        string key= split [split.Length -1];
+        
+        return org [key];
+        
+    }
+}
+
+// Your Codec object will be instantiated and called as such:
+// Codec codec = new Codec();
+// codec.decode(codec.encode(url));

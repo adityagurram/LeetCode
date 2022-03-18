@@ -1,0 +1,43 @@
+/*
+// Definition for a Node.
+public class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node parent;
+}
+*/
+
+public class Solution {
+    public Node InorderSuccessor(Node x) {
+        
+        if(x==null) return null;
+       //case 1 if there is a right subtree
+        if(x.right !=null)
+        {
+            Node temp= x.right;
+            
+            while (temp.left!=null)
+            {
+                temp= temp.left;
+            }
+            return temp;
+        }
+        else
+        {
+            Node p= x.parent;
+           
+            while (p !=null && x.val > p.val)
+            {
+                p= p.parent;                
+            }
+            return p;
+        }
+        
+        return null;
+        //case 2
+        //If there is no right subtree then we need to traverse parent till it takes right turn
+        
+        
+    }
+}

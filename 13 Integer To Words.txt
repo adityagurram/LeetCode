@@ -1,0 +1,54 @@
+public class Solution {
+    
+    string [] Thousands= new string [] {"", "Thousand", "Million", "Billion"};
+    string [] Tens= new string [] {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"};
+    string [] LessThanTwenty= new string []{"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    
+    public string NumberToWords(int num) {
+        
+        if(num==0)
+        {
+         return "Zero";   
+        }
+        StringBuilder sb= new StringBuilder();
+        int index =0;
+        while (num > 0)
+        {
+            if(num%1000 !=0)
+            {
+                StringBuilder temp= new StringBuilder ();
+                helper(temp, num%1000);
+                temp.Append (Thousands[index]).Append (" ");
+                sb.Insert (0, temp.ToString ());
+                
+            }
+            index ++;
+            num= num/1000;
+        }
+        return sb.ToString ().Trim();
+    }
+    
+    private void helper (StringBuilder temp, int num)
+    {
+        if(num == 0)
+        {
+            return;
+        }
+        else if (num < 20)
+        {
+            temp.Append (LessThanTwenty[num]).Append (" ");
+            return ;
+        }
+        else if (num <100)
+        {
+            temp.Append (Tens[num/10]).Append (" ");
+            helper(temp, num%10);
+        }
+        else
+        {
+            temp.Append (LessThanTwenty[num/100]).Append (" Hundred").Append (" ");
+            helper(temp, num%100);
+        }
+        
+    }
+}

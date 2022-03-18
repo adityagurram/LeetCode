@@ -1,0 +1,38 @@
+public class Solution {
+    public int[][] Merge(int[][] intervals) {
+        
+        int [][] intervalsData= new int [intervals.Length][];
+        intervalsData=    intervals.OrderBy(row=> row[0]).ToArray();
+        
+          List<List<int>> result= new List<List<int>>();
+        
+       
+           result. Add (new List<int> (){ intervalsData [0][0], intervalsData [0][1]});
+       for(int i=1; i< intervalsData.Length; i++)
+       {
+           int prevStart= result [result.Count() -1][0];
+           int prevEnd = result [result.Count () -1][1];
+           
+           int currStart= intervalsData [i][0];
+           int currEnd = intervalsData [i][1];
+           
+           if(currStart <= prevEnd && currEnd>= prevEnd)
+           {
+               result.RemoveAt(result.Count () -1);
+               result. Add (new List<int> (){prevStart, currEnd});
+           }
+           else if (currStart<= prevEnd && currEnd<=prevEnd)
+           {
+               result.RemoveAt(result.Count () -1);
+               result. Add (new List<int> (){prevStart, prevEnd});
+           }
+           else
+           {
+                  result. Add (new List<int> (){currStart, currEnd});
+           }
+       }
+        
+       return  result.Select(list => list.ToArray()).ToArray();
+        
+    }
+}
