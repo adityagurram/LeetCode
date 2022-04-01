@@ -1,0 +1,68 @@
+public class Solution {
+     List<IList<string>> result4;
+    public IList<IList<string>> SolveNQueens(int n) {
+         result4 = new List<IList<string>>();
+            List<string> slate = new List<string>();
+            helper(0, n, slate);
+        
+        return result4;
+    }
+    
+    private  void helper(int i, int N, List<string> slate)
+        {
+            //Now we need to write the backtracking case for attacking
+            if (i > 0)//means first queen is already place
+            {
+                int prevQueen = i - 1;
+                for (int earlier = prevQueen - 1; earlier >= 0; earlier--)
+                {
+                    //Column Conflict
+                    if (slate[earlier] == slate[prevQueen])
+                    {
+                        return;
+                    }
+                    //Diagonal conflict
+                    int rowdiff = Math.Abs(prevQueen - earlier);
+                    int coldiff = Math.Abs(Convert.ToInt32(slate[prevQueen]) - Convert.ToInt32(slate[earlier]));
+                    if (rowdiff == coldiff)
+                    {
+                        return;
+                    }
+                }
+            }
+            //leaf node case
+            if (i == N)
+            {
+                
+                List<string> tempResult = new List<string>();
+                foreach (string s in slate)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    int pos = Convert.ToInt32(s);
+                    for (int index = 0; index < N; index++)
+                    { 
+                        if (index == pos)
+                        {
+                            sb.Append("Q");
+                            continue;
+                        }
+                        sb.Append(".");
+                    }
+                    tempResult.Add(sb.ToString());
+
+                }
+                result4.Add(tempResult);
+              
+            }
+        
+        //recurisive case
+
+            for (int queen = 0; queen < N; queen++)
+            {
+                slate.Add(queen.ToString());
+                helper(i + 1, N, slate);
+                slate.RemoveAt(slate.Count() - 1);
+            }
+        }
+
+}
